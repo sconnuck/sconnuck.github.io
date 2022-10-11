@@ -29,12 +29,12 @@ You cannot run any R code in a plain Markdown document, whereas in an R Markdown
     </item>
     
     <item>
-      <title>About</title>
+      <title>About This Site</title>
       <link>https://sconnuck.github.io/about/</link>
       <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
       
       <guid>https://sconnuck.github.io/about/</guid>
-      <description>This is a &amp;ldquo;hello world&amp;rdquo; example website for the blogdown package. The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie.</description>
+      <description>Hi, I&amp;rsquo;m Shane.</description>
     </item>
     
     <item>
