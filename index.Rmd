@@ -1,0 +1,50 @@
+library(tidyverse)
+football <- read_csv(https://dwillis.github.io/sports-data-files/footballlogs21.csv)
+```{r}
+library(tidyverse)
+```
+```{r}
+read_csv(https:/dwillis.github.io/sports-data-files/footballlogs21.csv)
+```
+```{r}
+read_csv("https:/dwillis.github.io/sports-data-files/footballlogs21.csv")
+```
+```{r}
+football <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs22.csv")
+
+```
+```{r}
+AvgOffensivePlays <- football %>% 
+  filter(Conference == "Big Ten Conference") %>% 
+  group_by(Team) %>% 
+  summarize(avg = mean(OffensivePlays))
+```
+
+```{r}
+ggplot() + 
+  geom_bar(
+    data=AvgOffensivePlays, 
+    aes(x=Team, weight=avg)
+  )
+```
+```{r}
+ggplot() + 
+  geom_bar(
+    data=AvgOffensivePlays, 
+    aes(
+      x=reorder(Team, avg), 
+      weight=avg
+      )
+    ) +
+  labs(
+    title='Big Ten Schools Offensive Plays',
+    x="School",
+    y="Average Number of Plays") +
+  theme_minimal() +
+  coord_flip()
+
+  
+```
+This shows us that last year, Purdue has run the most offensive plays in the Big Ten, followed by Maryland and Penn State. Iowa, Minnesota and Iowa have run the fewest.
+
+This season, Indiana, Northwestern and Illinois are out in front, followed by Wisconsin, Michigan State and Iowa.
