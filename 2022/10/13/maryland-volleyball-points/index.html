@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Maryland Volleyball Points - Shane Connuck&#39;s Site</title>
+<meta property="og:title" content="Maryland Volleyball Points - Shane Connuck&#39;s Site">
+
+
+  <link href='https://sconnuck.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/sconnuck">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">Maryland Volleyball Points</h1>
+
+    
+    <span class="article-date">2022-10-13</span>
+    
+
+    <div class="article-content">
+      
+
+
+<p>Volleyball teams score their points in a number of ways, mainly kills, blocks and aces, along with errors by the opposition. Maryland volleyball is known for its blocking, with star Rainelle Jones leading the nation in that category. But is that the main way it gets its points? Along with star outside hitter Sam Csire always leading the Terps in kills? Let’s take a look.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(waffle)</code></pre>
+<pre class="r"><code>vb &lt;- read_csv(&quot;https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2022.csv&quot;)</code></pre>
+<pre><code>## Rows: 6077 Columns: 36
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr   (3): team, opponent, home_away
+## dbl  (31): team_score, opponent_score, s, kills, errors, total_attacks, hit_...
+## lgl   (1): result
+## date  (1): date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>read_csv(&quot;https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2022.csv&quot;)</code></pre>
+<pre><code>## Rows: 6077 Columns: 36
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr   (3): team, opponent, home_away
+## dbl  (31): team_score, opponent_score, s, kills, errors, total_attacks, hit_...
+## lgl   (1): result
+## date  (1): date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## # A tibble: 6,077 × 36
+##    date       team     oppon…¹ home_…² result team_…³ oppon…⁴     s kills errors
+##    &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 2022-08-26 A&amp;M-Cor… Nebras… Away    NA           0       3     3    20     22
+##  2 2022-08-26 A&amp;M-Cor… Pepper… Away    NA           0       3     3    36     21
+##  3 2022-08-27 A&amp;M-Cor… Tulsa   Away    NA           2       3     5    75     22
+##  4 2022-08-30 A&amp;M-Cor… UTRGV   Away    NA           2       3     5    78     24
+##  5 2022-09-02 A&amp;M-Cor… Sam Ho… Home    NA           0       3     3    41     22
+##  6 2022-09-03 A&amp;M-Cor… SMU     Home    NA           0       3     3    41     18
+##  7 2022-09-03 A&amp;M-Cor… Indiana Home    NA           0       3     3    25     17
+##  8 2022-09-06 A&amp;M-Cor… UTRGV   Home    NA           0       3     3    34     22
+##  9 2022-09-09 A&amp;M-Cor… Texas … Away    NA           0       3     3    33     20
+## 10 2022-09-10 A&amp;M-Cor… Rice    Away    NA           0       3     3    36     21
+## # … with 6,067 more rows, 26 more variables: total_attacks &lt;dbl&gt;,
+## #   hit_pct &lt;dbl&gt;, assists &lt;dbl&gt;, aces &lt;dbl&gt;, s_err &lt;dbl&gt;, digs &lt;dbl&gt;,
+## #   r_err &lt;dbl&gt;, block_solos &lt;dbl&gt;, block_assists &lt;dbl&gt;, b_err &lt;dbl&gt;,
+## #   pts &lt;dbl&gt;, bhe &lt;dbl&gt;, defensive_kills &lt;dbl&gt;, defensive_errors &lt;dbl&gt;,
+## #   defensive_total_attacks &lt;dbl&gt;, defensive_hit_pct &lt;dbl&gt;,
+## #   defensive_assists &lt;dbl&gt;, defensive_aces &lt;dbl&gt;, defensive_s_err &lt;dbl&gt;,
+## #   defensive_digs &lt;dbl&gt;, defensive_r_err &lt;dbl&gt;, defensive_block_solos &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>vb %&gt;% 
+  filter(team == &quot;Maryland Terrapins, Terps&quot;) %&gt;% 
+  summarize(sum(kills), sum(total_blocks = block_solos + round(block_assists/2)), sum(aces))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   `sum(kills)` sum(total_blocks = block_solos + round(block_assists/2)…¹ sum(a…²
+##          &lt;dbl&gt;                                                     &lt;dbl&gt;   &lt;dbl&gt;
+## 1          767                                                       227     133
+## # … with abbreviated variable names
+## #   ¹​`sum(total_blocks = block_solos + round(block_assists/2))`, ²​`sum(aces)`</code></pre>
+<pre class="r"><code>md &lt;- c(&quot;kills&quot;=767, &quot;total_blocks&quot;=227, &quot;aces&quot;=133)</code></pre>
+<pre class="r"><code>waffle(
+        md/2, 
+        rows = 10, 
+        title=&quot;Maryland&#39;s offense&quot;, 
+        xlab=&quot;1 square = 1 point&quot;, 
+        colors = c(&quot;black&quot;, &quot;red&quot;, &quot;yellow&quot;)
+)</code></pre>
+<p><img src="https://sconnuck.github.io/2022/10/13/maryland-volleyball-points/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+This shows that while Maryland does get a fair share of points from blocks and a smaller number from aces, kills are still the primary way in which Coach Adam Hughes’ squad scores its points.</p>
+<pre class="r"><code>vb %&gt;% 
+  filter(team == &quot;Nebraska Cornhuskers&quot;) %&gt;% 
+  summarize(sum(kills), sum(total_blocks = block_solos + round(block_assists/2)), sum(aces))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   `sum(kills)` sum(total_blocks = block_solos + round(block_assists/2)…¹ sum(a…²
+##          &lt;dbl&gt;                                                     &lt;dbl&gt;   &lt;dbl&gt;
+## 1          683                                                       139      64
+## # … with abbreviated variable names
+## #   ¹​`sum(total_blocks = block_solos + round(block_assists/2))`, ²​`sum(aces)`</code></pre>
+<pre class="r"><code>ne &lt;- c(&quot;kills&quot;=683, &quot;total_blocks&quot;=139, &quot;aces&quot;=64)</code></pre>
+<pre class="r"><code>waffle(
+        ne/2, 
+        rows = 10, 
+        title=&quot;Nebraska&#39;s offense&quot;, 
+        xlab=&quot;1 square = 1 point&quot;, 
+        colors = c(&quot;red&quot;, &quot;black&quot;, &quot;green&quot;)
+)</code></pre>
+<p><img src="https://sconnuck.github.io/2022/10/13/maryland-volleyball-points/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+Nebraska scores its points in similar ways to Maryland. It seems to have slightly more kills than Maryland the Terps do, but a similar distribution among these three ways to score.</p>
+<p>I’m curious to see how defensive errors contribute to the mix, and within that, how many come via the service error. It’s like missing a free throw in basketball, a serve is pretty much the same serve at most levels of volleyball and isn’t really defended. Still, it’s rare to see a volleyball team get the ball over the net on every one of its serves in an NCAA volleyball game. Sometimes, those mistakes prove costly for teams</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
