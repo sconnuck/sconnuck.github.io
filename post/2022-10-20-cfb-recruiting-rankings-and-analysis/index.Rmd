@@ -1,0 +1,55 @@
+---
+title: CFB Recruiting Rankings and Analysis
+author: Shane Connuck
+date: '2022-10-20'
+slug: cfb-recruiting-rankings-and-analysis
+categories: []
+tags: []
+---
+
+Every offseason, coaches at the highest levels of college athletics set out to build the best team they can. While coaches in college football, for example, are only manning the sidelines 12 or 13 times each year during games, they are recruiting the top high school talent and biggest names in the transfer portal all year long.
+
+Recruiting often translates to success. If you bring in better players, you should have a better team. But how often is that actually the case? Let's take a look at how it's gone in college football.
+```{r}
+library(tidyverse)
+```
+```{r}
+all_teams <- read_csv("https://dwillis.github.io/sports-data-files/all_teams.csv")
+```
+```{r}
+recruiting <- read_csv("https://dwillis.github.io/sports-data-files/all_rankings.csv")
+```
+```{r}
+combined <- all_teams %>% inner_join(recruiting, by=c("team", "year"))
+```
+```{r}
+ggplot() + geom_point(data=combined, aes(x=total_wins, y=rating))
+```
+```{r}
+ggplot() + 
+  geom_point(data=combined, aes(x=total_wins, y=rating)) +
+  geom_smooth(data=combined, aes(x=total_wins, y=rating), method="lm")
+```
+```{r}
+fit <- lm(rating ~ total_wins, data = combined)
+summary(fit)
+```
+```{r}
+umd <- combined %>% filter(team == "Maryland")
+```
+```{r}
+ggplot() + 
+  geom_point(data=combined, aes(x=total_wins, y=rating)) +
+  geom_smooth(data=combined, aes(x=total_wins, y=rating), method="lm") +
+  geom_point(data=umd, aes(x=total_wins, y=rating), color="red")
+```
+There's an adjusted R squared value of 0.1329, which means that only about 13 percent of a team's wins are as a result of its recruiting, according to 247 Sports' recruiting ratings.
+
+Let's see how many of Maryland's wins came as a result of said rating.
+```{r}
+fit <- lm(rating ~ total_wins, data = umd)
+summary(fit)
+```
+With an adjusted R-squared of -0.02809, this means that Maryland's wins were not as a result of its recuriting class. This makes sense, as the Terrapins hadn't been particularly strong in recruiting and seemed to have overachieved a bit.
+
+Still, it's tough to tell just how conclusive these ratings are. But it remains true that  a team recruiting better could only help them win more games.

@@ -1,0 +1,154 @@
+---
+title: First Pass Interceptions
+author: Shane Connuck
+date: '2022-10-18'
+slug: first-pass-interceptions
+categories: []
+tags: []
+---
+Connor Bazelak didn't get off to his best start on Saturday. The Indiana quarterback was intercepted by Tarheeb Still on the Hoosiers' first play from scrimmage Saturday afternoon at Memorial Stadium in Bloomington, Ind., and the Terps' ensuing short drive led to a quick seven points.
+
+It didn't get much better for the Missouri transfer against Coach Mike Locksley's squad. On his first play of the second half, Maryland cornerback Deonte Banks returned the favor and picked off Bazelak once again.
+
+And soon enough, despite an injury to their own quarterback, the Terrapins were victorious, 38-33.
+```{r}
+library(tidyverse)
+library(ggalt)
+```
+```{r}
+if (!requireNamespace('pacman', quietly = TRUE)){
+  install.packages('pacman')
+}
+pacman::p_load(tidyverse, cfbfastR, zoo, ggimage, gt)
+```
+```{r}
+tictoc::tic()
+cfb <- data.frame()
+seasons <- 2014:cfbfastR:::most_recent_cfb_season()
+progressr::with_progress({
+
+  cfb <- cfbfastR::load_cfb_pbp(seasons)
+})
+tictoc::toc()
+
+```
+```{r}
+first_plays_game <- cfb %>% filter(firstD_by_poss == 1, lag_kickoff_play == 1, drive_number == 1)
+```
+Let's compare Bazelak's rough start to the rest of college football.
+
+The code above creates a new dataframe containing only the first plays from scrimmage, the scenario in which Bazelak was picked on Saturday.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  group_by("Interception Return", "Interception Return Touchdown", "Pass Incompletion", "Pass Reception", "Passing Touchdown", "Sack") %>% 
+  summarise(count = n())
+```
+This means that since 2014, according to this data, there have been 7,201 pass plays, which include passing touchdowns, interceptions, receptions, incompletions and sacks. That's a very high number.
+
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return")
+```
+I struggled with this a bit, as I continued trying to use "group_by" and no matter which play types by which I grouped, it would spit out that number 7,201.
+
+Here, I tried filtered the play type to only show interception returns. Let's try that now with interception return touchdowns.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return Touchdown")
+```
+Only seven! So, that means that if you add the 45 interception returns to the seven first-play-from-scrimmage pick-sixes, you get 52 total interceptions. Now, let's see what percentage of all passing plays they represent.
+```{r}
+52/7201
+```
+```{r}
+0.007221219*100
+```
+Ah, it's a small one -- only 0.7 percent of passing plays on the first play from scrimmage result in interceptions. Almost one percent.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2014") %>% 
+  summarise(n())
+```
+Six times in 2014...
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2015") %>% 
+  summarise(n())
+```
+Nine ... seven returns plus the two touchdowns in 2015.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2016") %>% 
+  summarise(n())
+```
+Seven here ... two pick sixes and five interceptions.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2017") %>% 
+  summarise(n())
+```
+Six in 2017.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2018") %>% 
+  summarise(n())
+```
+Four in 2018...
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2019") %>% 
+  summarise(n())
+```
+Four in 2019.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2020") %>% 
+  summarise(n())
+```
+Just two (one a touchdown!) during the truncated (for many) 2020 season.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2021") %>% 
+  summarise(n())
+```
+Two last year...
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2022") %>% 
+  summarise(n())
+```
+There have already been 12 of these this year, according to the data. Let's make sure there were no touchdowns in there.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return Touchdown", year == "2022") %>% 
+  summarise(n())
+```
+Yup ... 12 interceptions on an offense's first play of the game, none have been pick sixes.
+
+Let's see who Bazelak and the Hoosiers join this year in getting picked on their first play from scrimmage.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return", year == "2022")
+```
+There are Indiana and Maryland on page two! Wide range of games on this list ... fellow power five schools among the likes of Notre Dame and Clemson, along with the Bethune-Cookmans and Gardner-Webbs of the world.
+```{r}
+first_plays_game %>% 
+  group_by(play_type) %>% 
+  filter(play_type == "Interception Return") %>% 
+  summarise(pos_team)
+```
+

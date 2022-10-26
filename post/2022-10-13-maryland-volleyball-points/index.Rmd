@@ -1,0 +1,63 @@
+---
+title: Maryland Volleyball Points
+author: Shane Connuck
+date: '2022-10-13'
+slug: maryland-volleyball-points
+categories: []
+tags: []
+---
+Volleyball teams score their points in a number of ways, mainly kills, blocks and aces, along with errors by the opposition. Maryland volleyball is known for its blocking, with star Rainelle Jones leading the nation in that category. But is that the main way it gets its points? Along with star outside hitter Sam Csire always leading the Terps in kills? Let's take a look.
+```{r}
+library(tidyverse)
+library(waffle)
+```
+```{r}
+vb <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2022.csv")
+```
+```{r}
+```
+
+
+```{r}
+read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2022.csv")
+```
+```{r}
+vb %>% 
+  filter(team == "Maryland Terrapins, Terps") %>% 
+  summarize(sum(kills), sum(total_blocks = block_solos + round(block_assists/2)), sum(aces))
+```
+```{r}
+md <- c("kills"=767, "total_blocks"=227, "aces"=133)
+```
+```{r}
+waffle(
+        md/2, 
+        rows = 10, 
+        title="Maryland's offense", 
+        xlab="1 square = 1 point", 
+        colors = c("black", "red", "yellow")
+)
+```
+This shows that while Maryland does get a fair share of points from blocks and a smaller number from aces, kills are still the primary way in which Coach Adam Hughes' squad scores its points.
+```{r}
+vb %>% 
+  filter(team == "Nebraska Cornhuskers") %>% 
+  summarize(sum(kills), sum(total_blocks = block_solos + round(block_assists/2)), sum(aces))
+```
+```{r}
+ne <- c("kills"=683, "total_blocks"=139, "aces"=64)
+```
+
+
+```{r}
+waffle(
+        ne/2, 
+        rows = 10, 
+        title="Nebraska's offense", 
+        xlab="1 square = 1 point", 
+        colors = c("red", "black", "green")
+)
+```
+Nebraska scores its points in similar ways to Maryland. It seems to have slightly more kills than Maryland the Terps do, but a similar distribution among these three ways to score.
+
+I'm curious to see how defensive errors contribute to the mix, and within that, how many come via the service error. It's like missing a free throw in basketball, a serve is pretty much the same serve at most levels of volleyball and isn't really defended. Still, it's rare to see a volleyball team get the ball over the net on every one of its serves in an NCAA volleyball game. Sometimes, those mistakes prove costly for teams

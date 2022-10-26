@@ -5,57 +5,14 @@
     <link>https://sconnuck.github.io/</link>
     <description>Recent content on Shane Connuck&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 20 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://sconnuck.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://sconnuck.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CFB Recruiting Rankings and Analysis</title>
-      <link>https://sconnuck.github.io/2022/10/20/cfb-recruiting-rankings-and-analysis/</link>
-      <pubDate>Thu, 20 Oct 2022 00:00:00 +0000</pubDate>
+      <title>Maryland Football YPP</title>
+      <link>https://sconnuck.github.io/post/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://sconnuck.github.io/2022/10/20/cfb-recruiting-rankings-and-analysis/</guid>
-      <description>Every offseason, coaches at the highest levels of college athletics set out to build the best team they can. While coaches in college football, for example, are only manning the sidelines 12 or 13 times each year during games, they are recruiting the top high school talent and biggest names in the transfer portal all year long.
-Recruiting often translates to success. If you bring in better players, you should have a better team.</description>
-    </item>
-    
-    <item>
-      <title>First Pass Interceptions</title>
-      <link>https://sconnuck.github.io/2022/10/18/first-pass-interceptions/</link>
-      <pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://sconnuck.github.io/2022/10/18/first-pass-interceptions/</guid>
-      <description>Connor Bazelak didn’t get off to his best start on Saturday. The Indiana quarterback was intercepted by Tarheeb Still on the Hoosiers’ first play from scrimmage Saturday afternoon at Memorial Stadium in Bloomington, Ind., and the Terps’ ensuing short drive led to a quick seven points.
-It didn’t get much better for the Missouri transfer against Coach Mike Locksley’s squad. On his first play of the second half, Maryland cornerback Deonte Banks returned the favor and picked off Bazelak once again.</description>
-    </item>
-    
-    <item>
-      <title>Maryland Volleyball Points</title>
-      <link>https://sconnuck.github.io/2022/10/13/maryland-volleyball-points/</link>
-      <pubDate>Thu, 13 Oct 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://sconnuck.github.io/2022/10/13/maryland-volleyball-points/</guid>
-      <description>Volleyball teams score their points in a number of ways, mainly kills, blocks and aces, along with errors by the opposition. Maryland volleyball is known for its blocking, with star Rainelle Jones leading the nation in that category. But is that the main way it gets its points? Along with star outside hitter Sam Csire always leading the Terps in kills? Let’s take a look.
-library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.</description>
-    </item>
-    
-    <item>
-      <title>Hello R Markdown</title>
-      <link>https://sconnuck.github.io/2020/12/01/hello-r-markdown/</link>
-      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
-      
-      <guid>https://sconnuck.github.io/2020/12/01/hello-r-markdown/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
-    </item>
-    
-    <item>
-      <title>A Plain Markdown Post</title>
-      <link>https://sconnuck.github.io/2016/12/30/a-plain-markdown-post/</link>
-      <pubDate>Fri, 30 Dec 2016 21:49:57 -0700</pubDate>
-      
-      <guid>https://sconnuck.github.io/2016/12/30/a-plain-markdown-post/</guid>
-      <description>This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
-You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc. There are many differences in syntax between Blackfriday&amp;rsquo;s Markdown and Pandoc&amp;rsquo;s Markdown.</description>
+      <guid>https://sconnuck.github.io/post/</guid>
+      <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.5 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(ggrepel) As the clock ran out on Saturday at SECU Stadium, it was the earliest time in more than 20 years that Maryland fans smelled bowl eligibility.</description>
     </item>
     
     <item>
@@ -65,15 +22,6 @@ You cannot run any R code in a plain Markdown document, whereas in an R Markdown
       
       <guid>https://sconnuck.github.io/about/</guid>
       <description>Hi, I&amp;rsquo;m Shane.</description>
-    </item>
-    
-    <item>
-      <title>Lorem Ipsum</title>
-      <link>https://sconnuck.github.io/2015/01/01/lorem-ipsum/</link>
-      <pubDate>Thu, 01 Jan 2015 13:09:13 -0600</pubDate>
-      
-      <guid>https://sconnuck.github.io/2015/01/01/lorem-ipsum/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
     </item>
     
   </channel>

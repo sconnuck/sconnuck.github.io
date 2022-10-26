@@ -6,8 +6,8 @@
 <meta name="generator" content="Hugo 0.104.3" />
 
 
-<title>Posts - Shane Connuck&#39;s Site</title>
-<meta property="og:title" content="Posts - Shane Connuck&#39;s Site">
+<title>Maryland Football YPP - Shane Connuck&#39;s Site</title>
+<meta property="og:title" content="Maryland Football YPP - Shane Connuck&#39;s Site">
 
 
   <link href='https://sconnuck.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
@@ -20,7 +20,10 @@
 
 
 
-<link href="/post/index.xml" rel="alternate" type="application/rss+xml" title="Shane Connuck&#39;s Site" />
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
 
 
 
@@ -57,66 +60,148 @@
 
 <main class="content" role="main">
 
+  <article class="article">
+    
+
+    <h1 class="article-title">Maryland Football YPP</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.5
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggrepel)</code></pre>
+<p>As the clock ran out on Saturday at SECU Stadium, it was the earliest time in more than 20 years that Maryland fans smelled bowl eligibility. It’s not every year that the Terrapins even reach the six-win mark, but after a promising 7-6 campaign in 2021 that culminated with a Pinstripe Bowl victory, Coach Mike Locksley’s squad has won six of its first eight games.</p>
+<p>Maryland is playing its best football in the last decade. Its offense – led by quarterback Taulia Tagovailoa, freshman phenom running back Roman Hemby and one of the strongest receiving corps in the nation – is scoring more points than any Maryland offense in recent memory. On the other side, Tarheeb Still and Jakorian Bennett are leading a defense that has been limiting opponents more so than nearly every other Terps squad in the last 10 years.</p>
+<pre class="r"><code>logs &lt;- read_csv(&quot;https://dwillis.github.io/sports-data-files/footballlogs1122.csv&quot;)</code></pre>
+<pre><code>## Rows: 18050 Columns: 57
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr   (9): HomeAway, Opponent, Result, TeamFull, TeamURL, Outcome, Team, Con...
+## dbl  (47): Game, PassingCmp, PassingAtt, PassingPct, PassingYds, PassingTD, ...
+## date  (1): Date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>winlosslogs &lt;- logs %&gt;% 
+  mutate(
+    wins = case_when(
+      grepl(&quot;W&quot;, Outcome) ~ 1, 
+      grepl(&quot;L&quot;, Outcome) ~ 0)
+)</code></pre>
+<pre class="r"><code>winlosslogs %&gt;% 
+  group_by(Team, Season) %&gt;% 
+  summarise(
+    TotalPlays = sum(OffensivePlays), 
+    TotalYards = sum(OffensiveYards), 
+    DefensivePlays = sum(DefPlays), 
+    DefensiveYards = sum(DefYards), 
+    TotalWins = sum(wins)) %&gt;% 
+  mutate(
+    OffensiveYPP = TotalYards/TotalPlays, 
+    DefensiveYPP = DefensiveYards/DefensivePlays) -&gt; ypp</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Team&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, aes(x=OffensiveYPP, y=DefensiveYPP)
+    )</code></pre>
+<p><img src="https://sconnuck.github.io/post/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins)
+    )</code></pre>
+<p><img src="https://sconnuck.github.io/post/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+This is all of college football – pretty messy.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins),
+    alpha = .3) + 
+  scale_size(range = c(3, 7), name=&quot;Wins&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/post/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>maryland &lt;- ypp %&gt;% filter(Team == &quot;Maryland&quot;)</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;grey&quot;, 
+    alpha=.5) + 
+  geom_point(
+    data=maryland, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;red&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/post/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>maryland %&gt;% 
+  ungroup() %&gt;% 
+  summarise(
+    offense = mean(OffensiveYPP), 
+    defense = mean(DefensiveYPP)
+    )</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   offense defense
+##     &lt;dbl&gt;   &lt;dbl&gt;
+## 1    5.69    5.50</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;grey&quot;, 
+    alpha=.5) + 
+  geom_point(
+    data=maryland, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;red&quot;) + 
+  geom_vline(xintercept = 5.687801) + 
+  geom_hline(yintercept = 5.496105)</code></pre>
+<p><img src="https://sconnuck.github.io/post/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=ypp, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;grey&quot;, 
+    alpha=.5) + 
+  geom_point(
+    data=maryland, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, size=TotalWins), 
+    color=&quot;red&quot;) + 
+  geom_vline(xintercept = 5.687801) + 
+  geom_hline(yintercept = 5.496105) +
+  geom_text_repel(
+    data=maryland, 
+    aes(x=OffensiveYPP, y=DefensiveYPP, label=Season)
+  ) +
+labs(title=&quot;Maryland is playing its best football in a decade&quot;, subtitle=&quot;The Terps are scoring more and allowing fewer points than they have in recent memory.&quot;, caption=&quot;Source: NCAA | By Shane Connuck&quot;)  + theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="https://sconnuck.github.io/post/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+The Terps’ worst season offensively and defensively in the last decade was 2012. Coach Randy Edsall’s squad went 4-8, going 2-6 in ACC play. The subsequent year in 2013, the 7-5 Terps reached the Military Bowl.</p>
+<p>The biggest difference in those two Maryland squads, its last two to compete in the ACC – the 2013 team just scored more. It scored at least 40 points in five games, while dropping at least 20 in 10 of the 11 games. That stems from the Terps averaging nearly two more yards per play in 2013 than in 2012.</p>
+<p>While this year’s squad is only about halfway through its campaign, the offense has been exceptional. Maryland has scored at least 27 points in every game this year. When it played No. 4 Michigan, it lost by a touchdown. It dropped a two-point heartbreakder to Purdue. And that’s it – everything else has been a win with at least some breathing room.</p>
+<p>With the arm of Tagovailoa spreading the wealth to his stellar receivers, Hemby’s speed and Antwain Littleton’s power, Maryland’s offense is averaging about seven yards per play this year. It’s led the Terps to more scores, and with the defense holding more and more drives at bay, Maryland continues playing a strong brand of football.</p>
+<p>Still, again, it’s early. After this week’s bye, Maryland heads to the raucous Camp Randall Stadium in Madison, Wis., for a date with the traditional Big Ten football power Badgers. It doesn’t get much easier – followed by a trip to the Happy Valley against a ranked Penn State squad, before the Terps’ yearly matchup with national championship contender Ohio State.</p>
+<p>But it’s put itself in as good of a position as it has in recent memory to battle with the Big Ten’s heavyweights.</p>
+
+    </div>
+  </article>
+
   
-  <div class="archive">
-    
-    
-    
-    <h2 class="archive-title">2022</h2>
-    
-    <article class="archive-item">
-      <a href="/2022/10/20/cfb-recruiting-rankings-and-analysis/" class="archive-item-link">CFB Recruiting Rankings and Analysis</a>
-      <span class="archive-item-date">
-        2022-10-20
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/2022/10/18/first-pass-interceptions/" class="archive-item-link">First Pass Interceptions</a>
-      <span class="archive-item-date">
-        2022-10-18
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/2022/10/13/maryland-volleyball-points/" class="archive-item-link">Maryland Volleyball Points</a>
-      <span class="archive-item-date">
-        2022-10-13
-      </span>
-    </article>
-    
-    
-    <h2 class="archive-title">2020</h2>
-    
-    <article class="archive-item">
-      <a href="/2020/12/01/hello-r-markdown/" class="archive-item-link">Hello R Markdown</a>
-      <span class="archive-item-date">
-        2020-12-01
-      </span>
-    </article>
-    
-    
-    <h2 class="archive-title">2016</h2>
-    
-    <article class="archive-item">
-      <a href="/2016/12/30/a-plain-markdown-post/" class="archive-item-link">A Plain Markdown Post</a>
-      <span class="archive-item-date">
-        2016-12-30
-      </span>
-    </article>
-    
-    
-    <h2 class="archive-title">2015</h2>
-    
-    <article class="archive-item">
-      <a href="/2015/01/01/lorem-ipsum/" class="archive-item-link">Lorem Ipsum</a>
-      <span class="archive-item-date">
-        2015-01-01
-      </span>
-    </article>
-    
-    
-  </div>
+
 
 </main>
 
@@ -133,6 +218,18 @@
 
     </div>
     
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
     
 
