@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.105.0">
+
+
+<title>NFL Redzone Update - Shane&#39;s Sportsblog</title>
+<meta property="og:title" content="NFL Redzone Update - Shane&#39;s Sportsblog">
+
+
+  <link href='https://sconnuck.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/sconnuck">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">NFL Redzone Update</h1>
+
+    
+    <span class="article-date">2022-11-01</span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(nflreadr)</code></pre>
+<pre class="r"><code>nfl_plays &lt;- load_pbp(
+  seasons = most_recent_season(),
+  file_type = getOption(&quot;nflreadr.prefer&quot;, default = &quot;rds&quot;)
+)</code></pre>
+<pre class="r"><code>nfl_plays %&gt;% 
+  filter(yardline_100 &lt; 20) %&gt;% 
+  filter(posteam == &quot;MIA&quot;) </code></pre>
+<pre><code>## ── nflverse play by play data ──────────────────────────────────────────────────</code></pre>
+<pre><code>## ℹ Data updated: 2022-11-02 05:08:35 EDT</code></pre>
+<pre><code>## # A tibble: 92 × 372
+##    play_id game_id old_g…¹ home_…² away_…³ seaso…⁴  week posteam poste…⁵ defteam
+##      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+##  1     499 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  2     523 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  3    1155 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  4    1678 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  5    3475 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  6    3497 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  7    3529 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  8    3550 2022_0… 202209… MIA     NE      REG         1 MIA     home    NE     
+##  9    1018 2022_0… 202209… BAL     MIA     REG         2 MIA     away    BAL    
+## 10    1052 2022_0… 202209… BAL     MIA     REG         2 MIA     away    BAL    
+## # … with 82 more rows, 362 more variables: side_of_field &lt;chr&gt;,
+## #   yardline_100 &lt;dbl&gt;, game_date &lt;chr&gt;, quarter_seconds_remaining &lt;dbl&gt;,
+## #   half_seconds_remaining &lt;dbl&gt;, game_seconds_remaining &lt;dbl&gt;,
+## #   game_half &lt;chr&gt;, quarter_end &lt;dbl&gt;, drive &lt;dbl&gt;, sp &lt;dbl&gt;, qtr &lt;dbl&gt;,
+## #   down &lt;dbl&gt;, goal_to_go &lt;dbl&gt;, time &lt;chr&gt;, yrdln &lt;chr&gt;, ydstogo &lt;dbl&gt;,
+## #   ydsnet &lt;dbl&gt;, desc &lt;chr&gt;, play_type &lt;chr&gt;, yards_gained &lt;dbl&gt;,
+## #   shotgun &lt;dbl&gt;, no_huddle &lt;dbl&gt;, qb_dropback &lt;dbl&gt;, qb_kneel &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>play_types &lt;- c(&quot;run&quot;, &quot;pass&quot;)
+
+nfl_plays %&gt;% filter(posteam == &quot;MIA&quot;) %&gt;% 
+  filter(yardline_100 &lt; 20) %&gt;% 
+  filter(play_type %in% play_types) %&gt;% 
+  filter(week &lt; 4) %&gt;% 
+  summarise(total_epa = sum(epa))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   total_epa
+##       &lt;dbl&gt;
+## 1      9.00</code></pre>
+<p>This is the Dolphins’ total EPA on red zone plays during weeks one through three.</p>
+<pre class="r"><code>nfl_plays %&gt;% filter(posteam == &quot;MIA&quot;) %&gt;% 
+  filter(yardline_100 &lt; 20) %&gt;% 
+  filter(play_type %in% play_types) %&gt;% 
+  summarise(total_epa = sum(epa))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   total_epa
+##       &lt;dbl&gt;
+## 1      9.90</code></pre>
+<p>This is the Dolphins’ total EPA on red zone plays all season. It has improved since week three, jumping from about nine to around 9.8.</p>
+<pre class="r"><code>plays_week3 &lt;- nfl_plays %&gt;% 
+  filter(yardline_100 &lt; 20) %&gt;% 
+  filter(week &lt; 4) %&gt;% 
+  group_by(posteam) %&gt;% 
+  summarise(total_epa3 = sum(epa), total_plays3 = n()) </code></pre>
+<pre class="r"><code>epa_week8 &lt;- nfl_plays %&gt;% 
+  filter(yardline_100 &lt; 20) %&gt;% 
+  filter(week &lt; 9) %&gt;% 
+  group_by(posteam) %&gt;% 
+  summarise(total_epa = sum(epa), total_plays8 = n())</code></pre>
+<pre class="r"><code>joined_epa &lt;- epa_week8 %&gt;% inner_join(plays_week3, by = &quot;posteam&quot;)</code></pre>
+<pre class="r"><code>library(ggalt)</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
+##   method                  from   
+##   grid.draw.absoluteGrob  ggplot2
+##   grobHeight.absoluteGrob ggplot2
+##   grobWidth.absoluteGrob  ggplot2
+##   grobX.absoluteGrob      ggplot2
+##   grobY.absoluteGrob      ggplot2</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_dumbbell(
+    data=joined_epa, 
+    aes(y=reorder(posteam, total_epa), x=total_epa3, xend=total_epa),
+    size = 1,
+    colour = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;blue&quot;) +
+      theme_minimal() +
+  labs(title = &quot;The Chiefs have found most success in the red zone this year&quot;, x = &quot;EPA&quot;, y= &quot;Team&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/2022/11/01/nfl-redzone-update/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+Kansas City has made tremendous improvements in the red zone this year, judging by its expected points added that has jumped from a little over one to 20 since week three. Coach Andy Reid’s squad now leads the NFL in EPA. The Saints, Titans, Eagles and Cowboys round out the top five – all of which have seen improvements since week three.</p>
+<p>Many teams have regressed in their abilities to punch it in when the offense is inside the 20-yardline, including the league-worst Broncos, who now have an EPA lower than -30. The Jaguars rank No. 31 with a current mark just over -20. Denver still owned the worst EPA in the NFL after week three, as Nathaniel Hackett’s squad had an EPA of -20 at that point in the season already.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
