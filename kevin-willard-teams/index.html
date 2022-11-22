@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Kevin Willard Teams - Shane Connuck&#39;s Site</title>
+<meta property="og:title" content="Kevin Willard Teams - Shane Connuck&#39;s Site">
+
+
+  <link href='https://sconnuck.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/sconnuck">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Kevin Willard Teams</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.5
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>cbb &lt;- read.csv(&quot;https://dwillis.github.io/sports-data-files/logs1222.csv&quot;)</code></pre>
+<pre class="r"><code>shu &lt;- cbb %&gt;% 
+  filter(TeamFull == &quot;Seton Hall Pirates&quot;)  </code></pre>
+<pre class="r"><code>md &lt;- cbb %&gt;% 
+  filter(TeamFull == &quot;Maryland Terrapins&quot;)</code></pre>
+<p>That created dataframes with only Seton Hall’s and Maryland’s stats, respectively. This is to compare both teams’ stats side-by-side.</p>
+<pre class="r"><code>ggplot() + 
+  geom_line(data=shu, aes(x=Date, y=Team3PPCT, group=Team), color = &quot;blue&quot;) + 
+  geom_line(data=md, aes(x=Date, y=Team3PPCT, group=Team), color = &quot;red&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/kevin-willard-teams/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>  scale_y_continuous(limits = c(0, .7))</code></pre>
+<pre><code>## &lt;ScaleContinuousPosition&gt;
+##  Range:  
+##  Limits:    0 --  0.7</code></pre>
+<p>It would appear as though the Pirates and Terps shot the three-ball pretty similarly. This graph is tough to tell. Let’s make it clearer.</p>
+<p>But first, I want to make sure we’re working with the right data:</p>
+<pre class="r"><code>shu %&gt;% group_by(Season) %&gt;% summarize(n())</code></pre>
+<pre><code>## # A tibble: 11 × 2
+##    Season    `n()`
+##    &lt;chr&gt;     &lt;int&gt;
+##  1 2011-2012    34
+##  2 2012-2013    33
+##  3 2013-2014    34
+##  4 2014-2015    31
+##  5 2015-2016    34
+##  6 2016-2017    33
+##  7 2017-2018    34
+##  8 2018-2019    34
+##  9 2019-2020    30
+## 10 2020-2021    27
+## 11 2021-2022    32</code></pre>
+<pre class="r"><code>md %&gt;% group_by(Season) %&gt;% summarize(n())</code></pre>
+<pre><code>## # A tibble: 11 × 2
+##    Season    `n()`
+##    &lt;chr&gt;     &lt;int&gt;
+##  1 2011-2012    32
+##  2 2012-2013    38
+##  3 2013-2014    32
+##  4 2014-2015    35
+##  5 2015-2016    36
+##  6 2016-2017    33
+##  7 2017-2018    32
+##  8 2018-2019    34
+##  9 2019-2020    31
+## 10 2020-2021    31
+## 11 2021-2022    32</code></pre>
+<p>Let’s pick something other than 3-point percentage. I feel like it’s difficult to compare schools – especially with how basketball is played today – with that stat. Maryland men’s basketball has been stifling its opponents defensively early in its Kevin Willard era. Let’s see how both Seton Hall and Maryland blocked over the years leading up to Willard’s arrival in College Park.</p>
+<pre class="r"><code>ggplot() + 
+  geom_line(data=shu, aes(x=Date, y=TeamBlocks, group=Team), color = &quot;blue&quot;) + 
+  geom_line(data=md, aes(x=Date, y=TeamBlocks, group=Team), color = &quot;red&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/kevin-willard-teams/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>  scale_y_continuous(limits = c(0, .7))</code></pre>
+<pre><code>## &lt;ScaleContinuousPosition&gt;
+##  Range:  
+##  Limits:    0 --  0.7</code></pre>
+<p>It looks like Maryland had been a better blocking team until recent years, when the Pirates were the better team at swatting shots. That makes sense, as Sasho Mamukelashvili was a great defender down low for them during the back end of Willard’s tenure in Newark.</p>
+<p>Let’s visualize it this way first:</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=shu, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = &quot;blue&quot;) + 
+  geom_point(data=md, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = &quot;red&quot;)</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: year
+## Ignoring unknown aesthetics: year</code></pre>
+<p><img src="https://sconnuck.github.io/kevin-willard-teams/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>  scale_y_continuous(limits = c(0, .7))</code></pre>
+<pre><code>## &lt;ScaleContinuousPosition&gt;
+##  Range:  
+##  Limits:    0 --  0.7</code></pre>
+<p>Same conclusion as before … Seton Hall significantly outblocked Maryland over the last few years, and the Terrapins had the advantage before.</p>
+<p>Let’s see how both teams have been with turning the ball over.</p>
+<pre class="r"><code>ggplot() + 
+  geom_line(data=shu, aes(x=Date, y=TeamTurnovers, group=Team), color = &quot;blue&quot;) + 
+  geom_line(data=md, aes(x=Date, y=TeamTurnovers, group=Team), color = &quot;red&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/kevin-willard-teams/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>  scale_y_continuous(limits = c(0, .7))</code></pre>
+<pre><code>## &lt;ScaleContinuousPosition&gt;
+##  Range:  
+##  Limits:    0 --  0.7</code></pre>
+<p>Again, very similar rates. Now, I think these 10-year timeframes are a bit too broad. Maryland had very different teams over that span, and I’m sure the same could be said for Seton Hall. I think the 2019-2020 season is a good spot to compare the two teams. Both were top-25 programs for most of that season that ended up being truncated because of the pandemic, and they squared off at Prudential Center in December. Right after getting home from my first semester as a Terp, my dad and I went to “The Rock” for that game, and us New Jersey Terps left the building disappointed.</p>
+<p>Let’s start with blocks. I’m pretty sure Romaro Gill had at least five blocks in that bad loss for then-No. 7 (I believe) Maryland.</p>
+<pre class="r"><code>ggplot()+
+  geom_line(data=shu, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = &quot;blue&quot;) + 
+  geom_line(data=md, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = &quot;red&quot;)</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: year
+## Ignoring unknown aesthetics: year</code></pre>
+<p><img src="https://sconnuck.github.io/kevin-willard-teams/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>  scale_y_continuous(limits = c(0, .7))</code></pre>
+<pre><code>## &lt;ScaleContinuousPosition&gt;
+##  Range:  
+##  Limits:    0 --  0.7</code></pre>
+<p>Again … it’s tough to tell. Let’s see pure scoring – did one team have any advantage?</p>
+<pre class="r"><code>ggplot()+
+  geom_line(data=shu, aes(x=Date, y=TeamScore, group=Team, year=2020), color = &quot;blue&quot;) + 
+  geom_line(data=md, aes(x=Date, y=TeamScore, group=Team, year=2020), color = &quot;red&quot;)</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: year
+## Ignoring unknown aesthetics: year</code></pre>
+<p><img src="https://sconnuck.github.io/kevin-willard-teams/index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>  scale_y_continuous(limits = c(0, .7))</code></pre>
+<pre><code>## &lt;ScaleContinuousPosition&gt;
+##  Range:  
+##  Limits:    0 --  0.7</code></pre>
+<p>As we remember from that season, Maryland had its ups and downs. While it had plenty of ups, they had their share of failures, as we see from the red dips below the blue.</p>
+<p>But overall, judging by this variety of both offensive and defensive stats, I think that Kevin Willard ran his team at Seton Hall very similarly to how the Terrapins had been playing under Mark Turgeon. Even after that Niagara game that tipped off the Willard era in College Park, the offense wasn’t running plays noticeably differently from how it did prior.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+

@@ -1,58 +1,46 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Shane&#39;s Sportsblog</title>
+    <title>Shane Connuck&#39;s Site</title>
     <link>https://sconnuck.github.io/</link>
-    <description>Recent content on Shane&#39;s Sportsblog</description>
+    <description>Recent content on Shane Connuck&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://sconnuck.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://sconnuck.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>NFL Redzone Update</title>
-      <link>https://sconnuck.github.io/2022/11/01/nfl-redzone-update/</link>
-      <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
+      <title>Kevin Willard Teams</title>
+      <link>https://sconnuck.github.io/kevin-willard-teams/</link>
+      <pubDate>Tue, 15 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://sconnuck.github.io/2022/11/01/nfl-redzone-update/</guid>
-      <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.5 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.10 ## ✔ tidyr 1.2.1 ✔ stringr 1.4.1 ## ✔ readr 2.1.3 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(nflreadr) nfl_plays &amp;lt;- load_pbp( seasons = most_recent_season(), file_type = getOption(&amp;quot;nflreadr.prefer&amp;quot;, default = &amp;quot;rds&amp;quot;) ) nfl_plays %&amp;gt;% filter(yardline_100 &amp;lt; 20) %&amp;gt;% filter(posteam == &amp;quot;MIA&amp;quot;) ## ── nflverse play by play data ────────────────────────────────────────────────── ## ℹ Data updated: 2022-11-02 05:08:35 EDT ## # A tibble: 92 × 372 ## play_id game_id old_g…¹ home_…² away_…³ seaso…⁴ week posteam poste…⁵ defteam ## &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; ## 1 499 2022_0… 202209… MIA NE REG 1 MIA home NE ## 2 523 2022_0… 202209… MIA NE REG 1 MIA home NE ## 3 1155 2022_0… 202209… MIA NE REG 1 MIA home NE ## 4 1678 2022_0… 202209… MIA NE REG 1 MIA home NE ## 5 3475 2022_0… 202209… MIA NE REG 1 MIA home NE ## 6 3497 2022_0… 202209… MIA NE REG 1 MIA home NE ## 7 3529 2022_0… 202209… MIA NE REG 1 MIA home NE ## 8 3550 2022_0… 202209… MIA NE REG 1 MIA home NE ## 9 1018 2022_0… 202209… BAL MIA REG 2 MIA away BAL ## 10 1052 2022_0… 202209… BAL MIA REG 2 MIA away BAL ## # … with 82 more rows, 362 more variables: side_of_field &amp;lt;chr&amp;gt;, ## # yardline_100 &amp;lt;dbl&amp;gt;, game_date &amp;lt;chr&amp;gt;, quarter_seconds_remaining &amp;lt;dbl&amp;gt;, ## # half_seconds_remaining &amp;lt;dbl&amp;gt;, game_seconds_remaining &amp;lt;dbl&amp;gt;, ## # game_half &amp;lt;chr&amp;gt;, quarter_end &amp;lt;dbl&amp;gt;, drive &amp;lt;dbl&amp;gt;, sp &amp;lt;dbl&amp;gt;, qtr &amp;lt;dbl&amp;gt;, ## # down &amp;lt;dbl&amp;gt;, goal_to_go &amp;lt;dbl&amp;gt;, time &amp;lt;chr&amp;gt;, yrdln &amp;lt;chr&amp;gt;, ydstogo &amp;lt;dbl&amp;gt;, ## # ydsnet &amp;lt;dbl&amp;gt;, desc &amp;lt;chr&amp;gt;, play_type &amp;lt;chr&amp;gt;, yards_gained &amp;lt;dbl&amp;gt;, ## # shotgun &amp;lt;dbl&amp;gt;, no_huddle &amp;lt;dbl&amp;gt;, qb_dropback &amp;lt;dbl&amp;gt;, qb_kneel &amp;lt;dbl&amp;gt;, … play_types &amp;lt;- c(&amp;quot;run&amp;quot;, &amp;quot;pass&amp;quot;) nfl_plays %&amp;gt;% filter(posteam == &amp;quot;MIA&amp;quot;) %&amp;gt;% filter(yardline_100 &amp;lt; 20) %&amp;gt;% filter(play_type %in% play_types) %&amp;gt;% filter(week &amp;lt; 4) %&amp;gt;% summarise(total_epa = sum(epa)) ## # A tibble: 1 × 1 ## total_epa ## &amp;lt;dbl&amp;gt; ## 1 9.</description>
+      <guid>https://sconnuck.github.io/kevin-willard-teams/</guid>
+      <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.5 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() cbb &amp;lt;- read.csv(&amp;quot;https://dwillis.github.io/sports-data-files/logs1222.csv&amp;quot;) shu &amp;lt;- cbb %&amp;gt;% filter(TeamFull == &amp;quot;Seton Hall Pirates&amp;quot;) md &amp;lt;- cbb %&amp;gt;% filter(TeamFull == &amp;quot;Maryland Terrapins&amp;quot;) That created dataframes with only Seton Hall’s and Maryland’s stats, respectively.</description>
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
-      <link>https://sconnuck.github.io/2020/12/01/hello-r-markdown/</link>
-      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
+      <title>Are college teams passing more on first down?</title>
+      <link>https://sconnuck.github.io/are-college-teams-passing-more-on-first-down/</link>
+      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://sconnuck.github.io/2020/12/01/hello-r-markdown/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+      <guid>https://sconnuck.github.io/are-college-teams-passing-more-on-first-down/</guid>
+      <description>library(tidyverse) library(cfbfastR) library(ggalt) tictoc::tic() pbp &amp;lt;- data.frame() seasons &amp;lt;- 2014:cfbfastR:::most_recent_cfb_season() progressr::with_progress({ pbp &amp;lt;- cfbfastR::load_cfb_pbp(seasons) }) tictoc::toc() ## 84.565 sec elapsed The following code creates a new dataframe for all passing plays on first down, grouped by the team and year.
+pass_plays &amp;lt;- pbp %&amp;gt;% filter(pass == 1) %&amp;gt;% filter(down == 1) %&amp;gt;% group_by(pos_team, year) %&amp;gt;% summarise(plays = n()) ## `summarise()` has grouped output by &amp;#39;pos_team&amp;#39;. You can override using the ## `.</description>
     </item>
     
     <item>
-      <title>A Plain Markdown Post</title>
-      <link>https://sconnuck.github.io/2016/12/30/a-plain-markdown-post/</link>
-      <pubDate>Fri, 30 Dec 2016 21:49:57 -0700</pubDate>
+      <title>Maryland Football YPP</title>
+      <link>https://sconnuck.github.io/post/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://sconnuck.github.io/2016/12/30/a-plain-markdown-post/</guid>
-      <description>This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
-You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc. There are many differences in syntax between Blackfriday&amp;rsquo;s Markdown and Pandoc&amp;rsquo;s Markdown.</description>
+      <guid>https://sconnuck.github.io/post/</guid>
+      <description>library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.5 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(ggrepel) As the clock ran out on Saturday at SECU Stadium, it was the earliest time in more than 20 years that Maryland fans smelled bowl eligibility.</description>
     </item>
     
     <item>
-      <title>About</title>
+      <title>About This Site</title>
       <link>https://sconnuck.github.io/about/</link>
       <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
       
       <guid>https://sconnuck.github.io/about/</guid>
-      <description>This is a &amp;ldquo;hello world&amp;rdquo; example website for the blogdown package. The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie.</description>
-    </item>
-    
-    <item>
-      <title>Lorem Ipsum</title>
-      <link>https://sconnuck.github.io/2015/01/01/lorem-ipsum/</link>
-      <pubDate>Thu, 01 Jan 2015 13:09:13 -0600</pubDate>
-      
-      <guid>https://sconnuck.github.io/2015/01/01/lorem-ipsum/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+      <description>Hi, I&amp;rsquo;m Shane.</description>
     </item>
     
   </channel>

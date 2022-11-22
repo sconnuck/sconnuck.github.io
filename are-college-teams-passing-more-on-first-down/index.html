@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>Are college teams passing more on first down? - Shane Connuck&#39;s Site</title>
+<meta property="og:title" content="Are college teams passing more on first down? - Shane Connuck&#39;s Site">
+
+
+  <link href='https://sconnuck.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/sconnuck">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Are college teams passing more on first down?</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>library(tidyverse)
+library(cfbfastR)
+library(ggalt)</code></pre>
+<pre class="r"><code>tictoc::tic()
+pbp &lt;- data.frame()
+seasons &lt;- 2014:cfbfastR:::most_recent_cfb_season()
+progressr::with_progress({
+  
+  pbp &lt;- cfbfastR::load_cfb_pbp(seasons)
+})
+tictoc::toc()</code></pre>
+<pre><code>## 84.565 sec elapsed</code></pre>
+<p>The following code creates a new dataframe for all passing plays on first down, grouped by the team and year.</p>
+<pre class="r"><code>pass_plays &lt;- pbp %&gt;% 
+  filter(pass == 1) %&gt;% 
+  filter(down == 1) %&gt;% 
+  group_by(pos_team, year) %&gt;%
+  summarise(plays = n())</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;pos_team&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p>This a new dataframe containing all first down plays.</p>
+<pre class="r"><code>plays &lt;- pbp %&gt;% 
+  filter(down == 1) %&gt;% 
+  group_by(pos_team, year) %&gt;%
+  summarise(plays = n())</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;pos_team&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p>So, I want to join these two new dataframes together so I can see the first down passes and plays side-by-side.</p>
+<pre class="r"><code>plays &lt;- pass_plays %&gt;% left_join(plays, by=c(&quot;pos_team&quot;, &quot;year&quot;))</code></pre>
+<pre class="r"><code>plays &lt;- pass_plays</code></pre>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
