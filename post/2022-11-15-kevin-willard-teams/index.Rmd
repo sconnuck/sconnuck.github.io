@@ -1,0 +1,91 @@
+---
+title: Kevin Willard Teams
+author: Shane Connuck
+date: '2022-11-15'
+slug: kevin-willard-teams
+categories: []
+tags: []
+---
+```{r}
+library(tidyverse)
+```
+
+```{r}
+cbb <- read.csv("https://dwillis.github.io/sports-data-files/logs1222.csv")
+```
+```{r}
+shu <- cbb %>% 
+  filter(TeamFull == "Seton Hall Pirates")  
+```
+```{r}
+md <- cbb %>% 
+  filter(TeamFull == "Maryland Terrapins")
+```
+
+That created dataframes with only Seton Hall's and Maryland's stats, respectively. This is to compare both teams' stats side-by-side.
+```{r}
+ggplot() + 
+  geom_line(data=shu, aes(x=Date, y=Team3PPCT, group=Team), color = "blue") + 
+  geom_line(data=md, aes(x=Date, y=Team3PPCT, group=Team), color = "red")
+  scale_y_continuous(limits = c(0, .7))
+```
+It would appear as though the Pirates and Terps shot the three-ball pretty similarly. This graph is tough to tell. Let's make it clearer.
+
+But first, I want to make sure we're working with the right data:
+```{r}
+shu %>% group_by(Season) %>% summarize(n())
+```
+
+```{r}
+md %>% group_by(Season) %>% summarize(n())
+```
+
+
+Let's pick something other than 3-point percentage. I feel like it's difficult to compare schools -- especially with how basketball is played today -- with that stat. Maryland men's basketball has been stifling its opponents defensively early in its Kevin Willard era. Let's see how both Seton Hall and Maryland blocked over the years leading up to Willard's arrival in College Park. 
+
+```{r}
+ggplot() + 
+  geom_line(data=shu, aes(x=Date, y=TeamBlocks, group=Team), color = "blue") + 
+  geom_line(data=md, aes(x=Date, y=TeamBlocks, group=Team), color = "red")
+  scale_y_continuous(limits = c(0, .7))
+```
+It looks like Maryland had been a better blocking team until recent years, when the Pirates were the better team at swatting shots. That makes sense, as Sasho Mamukelashvili was a great defender down low for them during the back end of Willard's tenure in Newark.
+
+Let's visualize it this way first:
+
+```{r}
+ggplot() + 
+  geom_point(data=shu, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = "blue") + 
+  geom_point(data=md, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = "red")
+  scale_y_continuous(limits = c(0, .7))
+```
+Same conclusion as before ... Seton Hall significantly outblocked Maryland over the last few years, and the Terrapins had the advantage before.
+
+Let's see how both teams have been with turning the ball over.
+
+```{r}
+ggplot() + 
+  geom_line(data=shu, aes(x=Date, y=TeamTurnovers, group=Team), color = "blue") + 
+  geom_line(data=md, aes(x=Date, y=TeamTurnovers, group=Team), color = "red")
+  scale_y_continuous(limits = c(0, .7))
+```
+Again, very similar rates. Now, I think these 10-year timeframes are a bit too broad. Maryland had very different teams over that span, and I'm sure the same could be said for Seton Hall. I think the 2019-2020 season is a good spot to compare the two teams. Both were top-25 programs for most of that season that ended up being truncated because of the pandemic, and they squared off at Prudential Center in December. Right after getting home from my first semester as a Terp, my dad and I went to "The Rock" for that game, and us New Jersey Terps left the building disappointed.
+
+Let's start with blocks. I'm pretty sure Romaro Gill had at least five blocks in that bad loss for then-No. 7 (I believe) Maryland.
+
+```{r}
+ggplot()+
+  geom_line(data=shu, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = "blue") + 
+  geom_line(data=md, aes(x=Date, y=TeamBlocks, group=Team, year=2020), color = "red")
+  scale_y_continuous(limits = c(0, .7))
+```
+Again ... it's tough to tell. Let's see pure scoring -- did one team have any advantage?
+```{r}
+ggplot()+
+  geom_line(data=shu, aes(x=Date, y=TeamScore, group=Team, year=2020), color = "blue") + 
+  geom_line(data=md, aes(x=Date, y=TeamScore, group=Team, year=2020), color = "red")
+  scale_y_continuous(limits = c(0, .7))
+```
+As we remember from that season, Maryland had its ups and downs. While it had plenty of ups, they had their share of failures, as we see from the red dips below the blue.
+
+But overall, judging by this variety of both offensive and defensive stats, I think that Kevin Willard ran his team at Seton Hall very similarly to how the Terrapins had been playing under Mark Turgeon. Even after that Niagara game that tipped off the Willard era in College Park, the offense wasn't running plays noticeably differently from how it did prior.

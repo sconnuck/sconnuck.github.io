@@ -1,0 +1,50 @@
+---
+title: Are college teams passing more on first down?
+author: Shane Connuck
+date: '2022-11-10'
+slug: are-college-teams-passing-more-on-first-down
+categories: []
+tags: []
+---
+
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(cfbfastR)
+library(ggalt)
+```
+
+```{r}
+tictoc::tic()
+pbp <- data.frame()
+seasons <- 2014:cfbfastR:::most_recent_cfb_season()
+progressr::with_progress({
+  
+  pbp <- cfbfastR::load_cfb_pbp(seasons)
+})
+tictoc::toc()
+```
+The following code creates a new dataframe for all passing plays on first down, grouped by the team and year.
+```{r}
+pass_plays <- pbp %>% 
+  filter(pass == 1) %>% 
+  filter(down == 1) %>% 
+  group_by(pos_team, year) %>%
+  summarise(plays = n())
+```
+This a new dataframe containing all first down plays. 
+```{r}
+plays <- pbp %>% 
+  filter(down == 1) %>% 
+  group_by(pos_team, year) %>%
+  summarise(plays = n())
+```
+So, I want to join these two new dataframes together so I can see the first down passes and plays side-by-side.
+```{r}
+plays <- pass_plays %>% left_join(plays, by=c("pos_team", "year"))
+```
+
+```{r}
+plays <- pass_plays
+```
+
