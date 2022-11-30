@@ -7,6 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://sconnuck.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>NCAA Volleyball Aces</title>
+      <link>https://sconnuck.github.io/ncaa-volleyball-aces/</link>
+      <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://sconnuck.github.io/ncaa-volleyball-aces/</guid>
+      <description>The 2022 NCAA volleyball regular season has come and gone, but in advance of the NCAA tournament, let’s take a look at how the nation’s best fared on the court this year.
+library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ── ## ✔ ggplot2 3.3.6 ✔ purrr 0.3.5 ## ✔ tibble 3.1.8 ✔ dplyr 1.0.9 ## ✔ tidyr 1.2.0 ✔ stringr 1.4.1 ## ✔ readr 2.1.2 ✔ forcats 0.5.2 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## ✖ dplyr::filter() masks stats::filter() ## ✖ dplyr::lag() masks stats::lag() library(ggbeeswarm) library(ggrepel) set.</description>
+    </item>
+    
+    <item>
       <title>Maryland Football YPP</title>
       <link>https://sconnuck.github.io/post/</link>
       <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>

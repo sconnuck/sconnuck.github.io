@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.104.3" />
+
+
+<title>NCAA Volleyball Aces - Shane Connuck&#39;s Site</title>
+<meta property="og:title" content="NCAA Volleyball Aces - Shane Connuck&#39;s Site">
+
+
+  <link href='https://sconnuck.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/sconnuck">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">NCAA Volleyball Aces</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<p>The 2022 NCAA volleyball regular season has come and gone, but in advance of the NCAA tournament, let’s take a look at how the nation’s best fared on the court this year.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.5
+## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.2
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
+library(ggrepel)</code></pre>
+<pre class="r"><code>set.seed(1234)</code></pre>
+<pre class="r"><code>vb &lt;- read.csv(&quot;https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2022.csv&quot;)</code></pre>
+<pre class="r"><code>vb_clean &lt;- vb %&gt;%
+  filter(gp &gt; 20) %&gt;% 
+  filter(!is.na(aces)) %&gt;% 
+  filter(!is.na(pos))</code></pre>
+<pre class="r"><code>player_aces &lt;- vb_clean %&gt;% 
+  group_by(full_name, pos, team) %&gt;% 
+  summarise(aces_per_match = aces/gp) </code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;full_name&#39;, &#39;pos&#39;. You can override using
+## the `.groups` argument.</code></pre>
+<pre class="r"><code>summary(player_aces)</code></pre>
+<pre><code>##   full_name             pos                team           aces_per_match  
+##  Length:1547        Length:1547        Length:1547        Min.   :0.0000  
+##  Class :character   Class :character   Class :character   1st Qu.:0.1818  
+##  Mode  :character   Mode  :character   Mode  :character   Median :0.6190  
+##                                                           Mean   :0.6119  
+##                                                           3rd Qu.:0.9524  
+##                                                           Max.   :3.1200</code></pre>
+<p>The median number is about .62 aces per match, but we only care about the good players. The third quartile is averaging nearly one ace per match, so let’s go from there.</p>
+<pre class="r"><code>stars &lt;- player_aces %&gt;% filter(aces_per_match &gt; 0.95)</code></pre>
+<pre class="r"><code>ggplot() + geom_beeswarm(data=stars, aes(x=pos, y=aces_per_match), color=&quot;grey&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/ncaa-volleyball-aces/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+This tells us which positions produced most aces per match. Looks like generally, it’s outside hitters and setters the most, which makes sense. Those are the players who serve the volleyball more often.</p>
+<pre class="r"><code>umd &lt;- player_aces %&gt;% 
+  filter(team == &quot;Maryland Terrapins, Terps&quot;) %&gt;% 
+  filter(aces_per_match &gt; 0.95) %&gt;% 
+  arrange(desc(aces_per_match))</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_beeswarm(
+    data=stars, 
+    groupOnX=TRUE, 
+    aes(x=pos, y=aces_per_match), color=&quot;grey&quot;) + 
+  geom_beeswarm(
+    data=umd, 
+    groupOnX=TRUE, 
+    aes(x=pos, y=aces_per_match), color=&quot;red&quot;)</code></pre>
+<p><img src="https://sconnuck.github.io/ncaa-volleyball-aces/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
