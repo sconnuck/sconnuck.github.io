@@ -43,8 +43,27 @@ So, I want to join these two new dataframes together so I can see the first down
 ```{r}
 plays <- pass_plays %>% left_join(plays, by=c("pos_team", "year"))
 ```
+Now, let's get the percentage of first down plays that were passes:
+```{r}
+pct_plays <- plays %>% 
+  group_by(year, plays.x, plays.y) %>% 
+  summarise(first_pass_pct = plays.x/plays.y)
+```
+```{r}
+summary(pct_plays)
+```
+
+On average, about 32 percent of plays on first down are passes. Now, let's make this specific for each year.
+```{r}
+pct_plays %>% 
+  group_by(first_pass_pct, year) %>% 
+  summary(year == "2021")
+```
+
 
 ```{r}
-plays <- pass_plays
+ggplot() + 
+  geom_line(data=plays, aes(x=pos, y=year)) + 
+  scale_y_continuous(limits = c(0, 500))
 ```
 
