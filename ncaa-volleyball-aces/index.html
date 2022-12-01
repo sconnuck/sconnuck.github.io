@@ -84,7 +84,16 @@
 <pre class="r"><code>library(ggbeeswarm)
 library(ggrepel)</code></pre>
 <pre class="r"><code>set.seed(1234)</code></pre>
-<pre class="r"><code>vb &lt;- read.csv(&quot;https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2022.csv&quot;)</code></pre>
+<pre class="r"><code>vb &lt;- read_csv(&quot;https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2022.csv&quot;)</code></pre>
+<pre><code>## Rows: 5379 Columns: 32
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (7): team, full_name, roster_name, last_name, first_name, yr, pos
+## dbl (23): season, jersey, feet, inches, gp, gs, mp, s, kills, errors, total_...
+## lgl  (2): ms, total_blocks
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>vb_clean &lt;- vb %&gt;%
   filter(gp &gt; 20) %&gt;% 
   filter(!is.na(aces)) %&gt;% 
@@ -107,10 +116,12 @@ library(ggrepel)</code></pre>
 <pre class="r"><code>ggplot() + geom_beeswarm(data=stars, aes(x=pos, y=aces_per_match), color=&quot;grey&quot;)</code></pre>
 <p><img src="https://sconnuck.github.io/ncaa-volleyball-aces/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 This tells us which positions produced most aces per match. Looks like generally, it’s outside hitters and setters the most, which makes sense. Those are the players who serve the volleyball more often.</p>
+<p>Now, let’s get our dataframe of only Maryland volleyball players:</p>
 <pre class="r"><code>umd &lt;- player_aces %&gt;% 
   filter(team == &quot;Maryland Terrapins, Terps&quot;) %&gt;% 
   filter(aces_per_match &gt; 0.95) %&gt;% 
   arrange(desc(aces_per_match))</code></pre>
+<p>Now, let’s see where Maryland players fit in.</p>
 <pre class="r"><code>ggplot() + 
   geom_beeswarm(
     data=stars, 
@@ -119,8 +130,21 @@ This tells us which positions produced most aces per match. Looks like generally
   geom_beeswarm(
     data=umd, 
     groupOnX=TRUE, 
-    aes(x=pos, y=aces_per_match), color=&quot;red&quot;)</code></pre>
-<p><img src="https://sconnuck.github.io/ncaa-volleyball-aces/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+    aes(x=pos, y=aces_per_match), color=&quot;red&quot;)+
+  geom_text_repel(
+    data=umd, 
+    aes(x=pos, y=aces_per_match, label=full_name))+
+  labs(
+    title= &quot;Aces of the 2022 NCAA Volleyball Season&quot;,
+    subtitle = &quot;The players who averaged the most aces per match&quot; ,
+    x=&quot;Position&quot;,
+    y=&quot;Aces&quot;
+    )</code></pre>
+<p><img src="https://sconnuck.github.io/ncaa-volleyball-aces/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+This includes ALL Maryland players. That’s why our data is skewed, including all of the Terps who haven’t recorded a single ace. I’m going to amend the “umd” dataframe to only include Maryland players with at least .95 aces per match, which is the threshold I made for the upper echelon.</p>
+<p>Ok, well now it has only the Maryland players, since I adjusted the dataframe. But originally, “0” aces per match was the first to show up on the chart. Now it’s only including players with at least 0.95.</p>
+<p>I think the most newsworthy item of this chart is the success that Maryland setter Sydney Dowler has had. She will always lead the team in assists, being the setter, but it’s even more impressive that she leads the team – and most of the country – with nearly 1.7 aces per match.</p>
+<p>Also, outside hitters and setters, like we noted, produce the most aces each match. But that’s not the case for Adam Hughes’ Terrapins. That makes sense, as Maryland’s outside hitters, like Laila Ivey and Sam Csire, are much more known for their thunderous spikes and kills. But it’s interesting that on other teams, those are the ones going back to the service line and consistently earning their team a point with one swing of the volleyball.</p>
 
     </div>
   </article>
