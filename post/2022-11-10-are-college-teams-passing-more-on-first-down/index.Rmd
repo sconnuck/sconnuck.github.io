@@ -46,8 +46,8 @@ plays <- pass_plays %>% left_join(plays, by=c("pos_team", "year"))
 Now, let's get the percentage of first down plays that were passes:
 ```{r}
 pct_plays <- plays %>% 
-  group_by(year, plays.x, plays.y) %>% 
-  summarise(first_pass_pct = plays.x/plays.y)
+  group_by(year, pos_team, plays.x, plays.y) %>% 
+  summarise(first_pass_pct = plays.x/plays.y*100)
 ```
 ```{r}
 summary(pct_plays)
@@ -56,14 +56,66 @@ summary(pct_plays)
 On average, about 32 percent of plays on first down are passes. Now, let's make this specific for each year.
 ```{r}
 pct_plays %>% 
-  group_by(first_pass_pct, year) %>% 
-  summary(year == "2021")
+  group_by(year) %>% 
+  summarize(pct = sum(plays.x)/sum(plays.y)*100)
 ```
 
 
 ```{r}
 ggplot() + 
-  geom_line(data=plays, aes(x=pos, y=year)) + 
-  scale_y_continuous(limits = c(0, 500))
+  geom_line(data=pct_plays, aes(x=year, y=first_pass_pct, group=pos_team)) 
+```
+```{r}
+bigten <- pbp %>% 
+  filter(offense_conference == "Big Ten")
+```
+```{r}
+bigten_plays <- bigten %>% 
+  filter(pass == 1) %>% 
+  filter(down == 1) %>% 
+  group_by(pos_team, year) %>%
+  summarise(plays = n())
 ```
 
+```{r}
+bigten_passes <- bigten %>% 
+  filter(down == 1) %>% 
+  group_by(pos_team, year) %>%
+  summarise(plays = n())
+```
+
+```{r}
+bigtenplays <- bigten_plays %>% left_join(bigten_passes, by=c("pos_team", "year"))
+```
+
+
+```{r}
+bigten_pctplays <- bigtenplays %>% 
+  group_by(year, pos_team, plays.x, plays.y) %>% 
+  summarise(first_pass_pct = plays.x/plays.y)
+```
+
+```{r}
+ggplot() +    
+  geom_line(data=bigten_pctplays, aes(x=year, y=first_pass_pct, group=pos_team)) + 
+  scale_y_continuous(limits = c(0, .6)) + 
+  facet_wrap(~pos_team)
+```
+```{r}
+sum(bigten_pctplays$first_pass_pct)
+```
+
+```{r}
+41.68684/126
+```
+
+I know that wasn't the most conventional way to get to the average, but when I tried to get the mean of the first_pass_pct column it continually just showed each value and called it the "mean" instead of actually calculating a mean for the entire dataframe.
+
+```{r}
+ggplot() + 
+  geom_hline(yintercept=0.3308479, color="blue") + 
+  geom_line(data=bigten_pctplays, aes(x=year, y=first_pass_pct, group=pos_team)) + 
+  scale_y_continuous(limits = c(0, .6)) + 
+  facet_wrap(~pos_team)
+```
+Over the last decade, Purdue has consistently passed the ball more on first down than other Big Ten teams. None of the other teams in the conference have been as aggressive as the Boilermakers, as nearly every other team has been hovering around or below the average.
